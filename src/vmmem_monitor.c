@@ -1,20 +1,21 @@
 
 #include <windows.h>
 
-#ifdef _0
-void registerIcon(HWND hWnd)
-{
-    NOTIFYICONDATA nid;
+NOTIFYICONDATA nid;
+
+void CreateTrayIcon(HWND hWnd) {
     nid.cbSize = sizeof(NOTIFYICONDATA);
-    nid.hWnd = /* your window handle */;
-    nid.uID = 100; // unique ID for the icon
+    nid.hWnd = hWnd;
+    nid.uID = 100;
     nid.uVersion = NOTIFYICON_VERSION;
-    nid.uCallbackMessage = WM_APP; // message to send when an event occurs
-    nid.hIcon = /* your icon */;
-    strcpy(nid.szTip, "Your tooltip text");
+    nid.uCallbackMessage = WM_APP;
+    nid.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+    strcpy(nid.szTip, "vmmem_monitor");
     nid.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
+
+    Shell_NotifyIcon(NIM_ADD, &nid);
 }
-#endif
+
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     switch (uMsg) {
